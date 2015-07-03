@@ -48,6 +48,10 @@ for key rotation.
 
 A string which will be used as single key if `keys` is not provided.
 
+##### saveUnchanged
+
+A boolean indicating whether to save a new cookie even if the session is unchanged, defaults to `false`.
+
 ##### Cookie Options
 
 Other options are passed to `cookies.get()` and `cookies.set()` allowing you

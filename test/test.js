@@ -238,6 +238,22 @@ describe('Cookie Session', function(){
           done();
         })
       })
+
+      describe('when options.saveUnchanged = true', function(){
+        it('should Set-Cookie', function(done){
+          var app = App({saveUnchanged:true});
+          app.use(function (req, res, next) {
+            assert.equal(req.session.message, 'hello');
+            res.end('klajsdlkfjadsf');
+          })
+
+          request(app.listen())
+              .get('/')
+              .set('Cookie', cookie)
+              .expect('Set-Cookie', /express:sess/)
+              .expect(200, done);
+        })
+      })
     })
 
     describe('when accessed and changed', function(){

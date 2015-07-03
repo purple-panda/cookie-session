@@ -33,6 +33,7 @@ module.exports = cookieSession
  * @param {boolean} [options.overwrite=true]
  * @param {string} [options.secret]
  * @param {boolean} [options.signed=true]
+ * @param {boolean} [options.saveUnchanged]
  * @return {function} middleware
  * @public
  */
@@ -51,6 +52,7 @@ function cookieSession(options) {
   if (null == opts.overwrite) opts.overwrite = true;
   if (null == opts.httpOnly) opts.httpOnly = true;
   if (null == opts.signed) opts.signed = true;
+  if (null == opts.saveUnchanged) opts.saveUnchanged = false;
 
   if (!keys && opts.signed) throw new Error('.keys required.');
 
@@ -112,7 +114,7 @@ function cookieSession(options) {
           cookies.set(name, '', req.sessionOptions)
         } else if (!json && !sess.length) {
           // do nothing if new and not populated
-        } else if (sess.changed(json)) {
+        } else if (sess.changed(json) || req.sessionOptions.saveUnchanged) {
           // save
           sess.save();
         }
